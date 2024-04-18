@@ -1,33 +1,43 @@
 class LRUCache {
 
+    LinkedHashSet<Integer> set;
     int maxCapacity;
-    LinkedHashMap<Integer,Integer> cache;
+    HashMap<Integer, Integer> map;
 
     public LRUCache(int capacity) {
+        set = new LinkedHashSet<>();
+        map = new HashMap<>();
         maxCapacity = capacity;
-        cache = new LinkedHashMap<>();
     }
     
     public int get(int key) {
-        if(!cache.containsKey(key)){
-           return -1;
+
+        if(!map.containsKey(key)){
+            return -1;
         }
-        int value = cache.get(key);
-        cache.remove(key);
-        cache.put(key,value);
-        return value;
+
+        set.remove(key);
+        set.add(key);
+
+        return map.get(key);        
     }
     
     public void put(int key, int value) {
 
-        if(cache.containsKey(key)){
-           cache.remove(key);
+        if(map.containsKey(key)){
+            set.remove(key);
         }
-        cache.put(key,value);
-        if(cache.size() > maxCapacity){
-            int keyToBeDeleted = cache.keySet().iterator().next();
-            cache.remove(keyToBeDeleted);
+
+        map.put(key, value);
+        set.add(key);
+
+        if(set.size() > maxCapacity){
+            Iterator itr = set.iterator();
+            int keyToDelete = (int) itr.next();
+            set.remove(keyToDelete);
+            map.remove(keyToDelete);
         }
+        
     }
 }
 
