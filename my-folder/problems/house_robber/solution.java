@@ -5,7 +5,7 @@ class Solution {
         dp = new int[nums.length + 1];
         Arrays.fill(dp, - 1);
 
-        return Math.max(find(nums,0),find(nums,1)); 
+        return find(nums,0); 
     }
 
     private int find(int[] nums, int curr){
