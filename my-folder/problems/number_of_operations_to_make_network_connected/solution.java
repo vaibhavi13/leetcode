@@ -1,10 +1,13 @@
 class Solution {
-
     public int makeConnected(int n, int[][] connections) {
 
         if(connections.length < n - 1){
             return -1;
         }
+
+        int noOfComponents = 0;
+
+        int[] visited = new int[n];
 
         HashMap<Integer,List<Integer>> adj = new HashMap<>();
 
@@ -15,41 +18,33 @@ class Solution {
             adj.get(connections[i][1]).add(connections[i][0]);
         }
 
-        int numberOfComponents = 0 ;
-        int visited[] = new int[n];
-
         for(int i = 0 ; i < n ; i++){
             if(visited[i] == 0){
-                numberOfComponents++;
-                bfs(adj, visited, i);
+                noOfComponents++;
+                bfs(adj,i,visited);
             }
         }
-
-        return numberOfComponents - 1;
+        
+        return noOfComponents - 1;
+    
     }
 
-    private void bfs(HashMap<Integer,List<Integer>> adj, int[] visited, int start){
-
+    private void bfs(HashMap<Integer, List<Integer>> adj, int node, int[] visited){
+        
         Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        visited[start] = 1;
+        queue.add(node);
+        visited[node] = 1;
 
-        while(queue.size() > 0){
-
+        while(!queue.isEmpty()){
             int curr = queue.poll();
-
-            for(Integer n : adj.getOrDefault(curr, new ArrayList<>())){
-
-                if(visited[n] == 0){
-                    visited[n] = 1;
-                    queue.add(n);
+            for(int neigh : adj.getOrDefault(curr,new ArrayList<>())){
+                if(visited[neigh] == 0){
+                    queue.add(neigh);
+                    visited[neigh] = 1;
                 }
-
             }
-
-        }
-
-
-
+        } 
     }
+
+
 }
