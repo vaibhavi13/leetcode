@@ -1,17 +1,15 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
 
-        List<List<Integer>> adj = new ArrayList<>();
+        HashMap<Integer,List<Integer>> preq = new HashMap<>();
+        int[] indegree = new int[numCourses];
 
-        for(int i = 0 ; i < numCourses ; i++){
-           adj.add(new ArrayList<>());
-        }
-
-        int indegree[] = new int[numCourses];
-
-        for(int i = 0 ; i < prerequisites.length ; i++){
-            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
-            indegree[prerequisites[i][0]]++;
+        for(int i  = 0 ; i < prerequisites.length ; i++){
+            for(int j = 0 ; j < prerequisites[i].length ; j++){
+                preq.putIfAbsent(prerequisites[i][1], new ArrayList<>());
+                preq.get(prerequisites[i][1]).add(prerequisites[i][0]);
+                indegree[prerequisites[i][0]]++;
+            }
         }
 
         Queue<Integer> queue = new LinkedList<>();
@@ -21,26 +19,25 @@ class Solution {
                 queue.add(i);
             }
         }
-        
-        int visited = 0;
 
-        while(queue.size() > 0){
+        while(preq.size() > 0){
+            if(queue.size() == 0){
+                return false;
+            }
 
             int curr = queue.poll();
-            visited++;
 
-            for(Integer n : adj.get(curr)){
-                indegree[n]--;
-                if(indegree[n] == 0){
-                    queue.add(n);
+            for(int neigh : preq.getOrDefault(curr, new ArrayList<>())){
+                indegree[neigh]--;
+                if(indegree[neigh] == 0){
+                    queue.add(neigh);
                 }
             }
 
+            preq.remove(curr);
         }
 
-
-        return visited == numCourses;
-
+        return true;
         
     }
 }
