@@ -4,29 +4,22 @@ class Solution {
         Stack<Character> stack = new Stack<>();
 
         for(int i = 0 ; i < s.length() ; i++){
-            if(s.charAt(i) == '(' || s.charAt(i) == '[' || s.charAt(i) == '{'){
-                stack.push(s.charAt(i));
+            char curr = s.charAt(i);
+
+            if(curr == '(' || curr == '[' || curr == '{'){
+                stack.push(curr);
             }else{
                 if(stack.size() == 0){
                     return false;
                 }
-                if(s.charAt(i) == ')'){
-                    if(stack.peek() != '('){
-                        return false;
-                    }
-                }else if(s.charAt(i) == ']'){
-                     if(stack.peek() != '['){
-                        return false;
-                    }
-
-                }else{
-                    if(stack.peek() != '{'){
-                        return false;
-                    }
+                if( (curr == ')' && stack.peek() != '(') 
+                    || (curr == ']' && stack.peek() != '[')
+                    || (curr == '}' && stack.peek() != '{')
+                    ){
+                    return false;
                 }
-                stack.pop();              
+                stack.pop();
             }
-
         }
 
         return stack.size() == 0;
