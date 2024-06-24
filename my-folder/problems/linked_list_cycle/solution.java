@@ -23,15 +23,17 @@ public class Solution {
             return false;
         }
 
+
         while(fast != null && fast.next != null){
-            if(fast == slow){
+            if(slow == fast){
                 return true;
             }
+
             slow = slow.next;
             fast = fast.next.next;
         }
 
         return false;
-       
+        
     }
 }
