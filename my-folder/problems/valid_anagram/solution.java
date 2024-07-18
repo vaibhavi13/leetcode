@@ -7,11 +7,11 @@ class Solution {
             c[s.charAt(i) - 'a']++;
         }
 
-        for(int i = 0 ; i < t.length() ; i++){
-            c[t.charAt(i) - 'a']--;
+        for(int j = 0 ; j < t.length() ; j++){
+            c[t.charAt(j) - 'a']--;
         }
 
-        for(int i = 0 ; i < c.length ; i++){
+        for(int i = 0 ; i < 26 ; i++){
             if(c[i] != 0){
                 return false;
             }
